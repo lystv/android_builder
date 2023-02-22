@@ -17,13 +17,13 @@ jobs:
         name: Get project name
         run: echo "::set-output name=PROJECT::$(cat project-to-build)"
       - name: Clone project
-        run: git clone --depth=1 ${{ steps.get-project.outputs.PROJECT }} project
+        run: git clone -b dev --depth=1 ${{ steps.get-project.outputs.PROJECT }} project
       - name: Build the app
         working-directory: ./project
         run: |
           if [ ! -f "gradlew" ]; then gradle wrapper; fi
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
+          ./gradlew assemblemobileJavarelease --stacktrace
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
